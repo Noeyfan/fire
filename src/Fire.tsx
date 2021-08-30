@@ -71,14 +71,20 @@ class Fire extends React.Component {
       title: {
         text: title,
       },
+      grid: {
+        containerLabel: true,
+      },
       xAxis: {
         type: 'category',
         data: this.buildxaxis()
       },
       yAxis: [
-             {
-                type: 'value',
-             }
+        {
+          type: 'value',
+          axisLabel: {
+            formatter: '{value}k'
+          },
+        }
       ],
       tooltip: {
         trigger: 'axis',
@@ -109,7 +115,7 @@ class Fire extends React.Component {
       investmentFunds += investmentGain + yearlyContribution;
       const cashFlow = investmentGain - yearlySpending;
       if (cashFlow <= 0) {
-        result.push(Math.round(-cashFlow));
+        result.push(Math.round(-cashFlow/1000));
       }
     }
 
@@ -124,13 +130,12 @@ class Fire extends React.Component {
     const yearlySpending = (form.spending + form.mortgage) * 12;
     const yearlyContribution = form.salary * 12 - yearlySpending;
     const result = [];
-    result.push(houseFunds + investmentFunds - totalMortgage);
-    for (let i = 1; i <= Fire.YEARS; i++) {
+    for (let i = 0; i <= Fire.YEARS; i++) {
       investmentGain = investmentFunds * (Fire.INVEST_YOY * (1 - Fire.TAX));
       houseFunds += houseFunds * Fire.HOUSE_YOY;
       investmentFunds += investmentGain + yearlyContribution;
       totalMortgage -= form.mortgage * 12;
-      result.push(Math.round(investmentFunds + houseFunds - totalMortgage));
+      result.push(Math.round((investmentFunds + houseFunds - totalMortgage)/1000));
     }
 
     return result;
