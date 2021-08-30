@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
+import { Form, Container, Row, Col } from 'react-bootstrap';
 import './App.css';
 
 class Fire extends React.Component {
@@ -135,26 +136,39 @@ class Fire extends React.Component {
     return result;
   }
 
+  addForm(label: string, defaultValue: any, name: string) {
+    return (
+      <Col>
+        <Form.Group>
+          <Form.Label>{label}</Form.Label>
+          <Form.Control type="number" defaultValue={defaultValue} name={name}/>
+        </Form.Group>
+      </Col>
+    );
+  }
+
   render() {
     return (
-      <div>
+      <Container>
         <ReactECharts option={(this.state as any).cashFlowGraph} />
         <ReactECharts option={(this.state as any).networthGraph} />
-        <div>
-        * Investment return YOY: 6%
-        * House return YOY: 3.5%
-        * Inflation not counted
-        </div>
-        <div>
-          <form onChange={this.handleChange}>
-            Spending (per month): <input type="number" defaultValue={Fire.DEFAULT_FORM.spending} name="spending" />
-            Mortgage (per month): <input type="number" defaultValue={Fire.DEFAULT_FORM.mortgage} name="mortgage" />
-            Salary (per month): <input type="number" defaultValue={Fire.DEFAULT_FORM.salary} name="salary" />
-            House Value (total market value): <input defaultValue={Fire.DEFAULT_FORM.hvalue} type="number" name="hvalue" />
-            Investment Starting funds: <input type="number" defaultValue={Fire.DEFAULT_FORM.funds} name="funds" />
-          </form>
-        </div>
-      </div>
+        <Form onChange={this.handleChange}>
+          <Row>
+          {this.addForm('Spending (per month)', Fire.DEFAULT_FORM.spending, 'spending')}
+          {this.addForm('Mortgage (per month)', Fire.DEFAULT_FORM.mortgage, 'mortgage')}
+          </Row>
+          <Row>
+          {this.addForm('Salary (per month)', Fire.DEFAULT_FORM.salary, 'salary')}
+          {this.addForm('House Value (total market value)', Fire.DEFAULT_FORM.hvalue, 'hvalue')}
+          </Row>
+          <Row>
+          {this.addForm('Investment Starting fund', Fire.DEFAULT_FORM.funds, 'funds')}
+          </Row>
+          <Form.Text className="text-muted">
+            * Investment return YOY: 6% * House return YOY: 3.5% * Inflation not counted
+          </Form.Text>
+        </Form>
+      </Container>
     );
   }
 }
