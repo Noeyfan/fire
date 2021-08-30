@@ -58,7 +58,7 @@ class Fire extends React.Component {
         form,
         (form) => this.calculateCashflow(form),
         'Cash Flow Needed',
-        'Lower means closer to financial freedom'
+        'Lower means closer to financial independence'
       ),
       networthGraph: this.buildGraph(
         form,
